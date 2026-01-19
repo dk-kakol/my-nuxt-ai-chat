@@ -1,0 +1,54 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme {
+	--font-sans: "Inter", system-ui, sans-serif;
+
+	--color-green-50: #effdf5;
+	--color-green-100: #d9fbe8;
+	--color-green-200: #b3f5d1;
+	--color-green-300: #75edae;
+	--color-green-400: #00dc82;
+	--color-green-500: #00c16a; /* primary */
+	--color-green-600: #00a155;
+	--color-green-700: #007f45;
+	--color-green-800: #016538;
+	--color-green-900: #0a5331;
+	--color-green-950: #052e16;
+}
+
+/* kurs nadpisywał --ui-primary w :root, docsy nuxt-ui pokazują żeby w @theme static */
+/* @theme static {
+	--ui-primary: var(--color-green-500);
+	// ale już tutaj nadpisanie --ui-bg nie działa, a w :root tak
+	--ui-bg: var(--color-gray-950);
+} */
+
+/* Defining regular CSS variables with :root can still be useful in Tailwind projects
+when you want to define a variable that isn't meant to be connected to a utility class. 
+Use @theme when you want a design token to map directly to a utility class, 
+and use :root for defining regular CSS variables that shouldn't have corresponding utility classes.
+so here goes variables that override nuxt-ui defaults (if you insert them in @theme they wont't work)
+and in @theme variables that override tailwindcss variables 
+*/
+:root {
+	--ui-primary: var(--color-green-500);
+	--ui-bg: var(--color-gray-950);
+	--ui-bg-muted: var(--color-gray-900);
+	--ui-bg-elevated: var(--color-gray-800);
+	--ui-bg-accented: var(--color-gray-700);
+	--ui-bg-inverted: var(--color-white);
+
+	--ui-text: var(--color-gray-100);
+	--ui-text-muted: var(--color-gray-200);
+	--ui-text-dimmed: var(--color-gray-400);
+	--ui-text-highlighted: var(--color-white);
+
+	--ui-border: var(--color-gray-800);
+	--ui-border-muted: var(--color-gray-800);
+	--ui-border-accented: var(--color-gray-700);
+	--ui-border-inverted: var(--color-white);
+
+	--ui-radius: var(--radius-sm);
+	--ui-container: var(--container-6xl);
+}
