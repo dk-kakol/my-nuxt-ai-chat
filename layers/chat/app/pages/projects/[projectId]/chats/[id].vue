@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Chat } from "../../../../types";
-
 const route = useRoute();
 const {
 	chat: chatFromChats,
@@ -27,7 +25,7 @@ const appConfig = useAppConfig();
 const title = computed(() =>
 	chat.value?.title
 		? `${chat.value.title} - ${appConfig.title}`
-		: appConfig.title
+		: appConfig.title,
 );
 
 useHead({
