@@ -1,6 +1,10 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 console.log(config);
+
+const { fetchChats } = useChats();
+const { fetchProjects } = useProjects();
+await Promise.all([fetchChats(), fetchProjects()]);
 </script>
 
 <template>
