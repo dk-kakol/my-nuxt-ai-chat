@@ -1,6 +1,5 @@
-import { getChatById } from "#layers/chat/server/repository/chatRepository";
+import { getAllChats } from "#layers/chat/server/repository/chatRepository";
 
-export default defineEventHandler(async (event) => {
-	const { id } = getRouterParams(event);
-	return getChatById(id);
+export default defineEventHandler(async (_event) => {
+	return getAllChats();
 });
