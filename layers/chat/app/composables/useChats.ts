@@ -1,6 +1,3 @@
-import type { Chat } from "../types";
-import { MOCK_CHAT } from "../composables/mockData";
-
 export default function useChats() {
 	const chats = useState<Chat[]>("chats", () => [MOCK_CHAT]);
 

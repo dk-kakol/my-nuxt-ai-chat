@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 // import type { Project, Chat } from "../../../chat/app/types";
-import type { Project, Chat } from "#layers/chat/app/types";
+import type { Project, Chat } from "#layers/chat/shared/types/types";
 defineProps<{
 	isOpen: boolean;
 }>();
@@ -36,7 +36,7 @@ function formatProjectItem(project: Project): NavigationMenuItem {
 		return {
 			...baseItem,
 			children: chatsInCurrentProject.value.map((chat) =>
-				formatProjectChat(project, chat)
+				formatProjectChat(project, chat),
 			),
 		};
 	}
@@ -44,7 +44,7 @@ function formatProjectItem(project: Project): NavigationMenuItem {
 }
 
 const projectItems = computed<NavigationMenuItem[]>(() =>
-	projects.value.map(formatProjectItem)
+	projects.value.map(formatProjectItem),
 );
 
 async function handleCreateProject() {
@@ -53,7 +53,7 @@ async function handleCreateProject() {
 }
 
 const chatsWithoutProject = computed(() =>
-	chats.value.filter((chat) => chat.projectId === undefined)
+	chats.value.filter((chat) => chat.projectId === undefined),
 );
 
 function filterChats(startDays: number, endDays?: number) {
@@ -61,7 +61,7 @@ function filterChats(startDays: number, endDays?: number) {
 		return filterChatsByDateRange(
 			chatsWithoutProject.value,
 			startDays,
-			endDays
+			endDays,
 		).map(formatChatItem);
 	});
 }
