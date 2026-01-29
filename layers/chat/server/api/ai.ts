@@ -3,13 +3,23 @@ import {
 	// createOpenAiModel,
 	generateChatResponse,
 } from "../services/ai-service";
+import { ChatMessageSchema } from "#layers/chat/server/schemas";
 
 // jeśli będzie w server/routes to będzie pod localhost:3000/ai
 // teraz jest w server/api i będzie pod localhost:3000/api/ai
 export default defineEventHandler(async (event) => {
-	const body = await readBody(event);
-	const { messages } = body;
-	const id = messages.length.toString();
+	const { success, data } = await readValidatedBody(
+		event,
+		ChatMessageSchema.safeParse,
+	);
+	if (!success) {
+		return 400;
+	}
+
+	const { messages } = data as {
+		messages: ChatMessage[];
+		chatId: string;
+	};
 	// const lastMessage = messages[messages.length - 1];
 
 	// const openaiApiKey = useRuntimeConfig().openaiApiKey;
@@ -20,7 +30,7 @@ export default defineEventHandler(async (event) => {
 		messages,
 		// openaiModel
 		// możesz też użyć ollamaModel
-		ollamaModel
+		ollamaModel,
 	);
 	// możesz zwrócić cokolwiek:
 	// return 403;
@@ -28,7 +38,7 @@ export default defineEventHandler(async (event) => {
 	// return '<h1>Hello World</h1>';
 	// lub json
 	return {
-		id,
+		id: messages.length.toString(),
 		role: "assistant",
 		// content: `You said: ${lastMessage.content}`,
 		content: response,
