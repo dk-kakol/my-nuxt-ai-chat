@@ -77,11 +77,15 @@ watch(() => props.messages, pinToBottom, { deep: true });
 	min-height: 0;
 	width: 100%;
 	box-sizing: border-box;
+	height: 100%;
+	position: relative;
 }
 
 .chat-container {
 	max-width: 800px;
-	height: 100%;
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 /* ===== Header Styles ===== */
