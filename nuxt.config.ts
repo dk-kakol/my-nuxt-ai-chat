@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
 	compatibilityDate: "2025-07-15",
 	devtools: { enabled: true },
-	modules: ["@nuxt/eslint"],
+	modules: ["@nuxt/eslint", "@nuxt/image"],
 	nitro: {
 		storage: {
 			db: {
@@ -22,5 +22,12 @@ export default defineNuxtConfig({
 				},
 			},
 		},
+	},
+
+	routeRules: {
+		// nasz homepage może być prerenderowany, bo jest statyczny
+		"/": { prerender: true },
+		// jeśli chcielibyśmy wyłączyć domyślne SSR dla jakiś stron:
+		// "chats/**": { ssr: false },
 	},
 });
