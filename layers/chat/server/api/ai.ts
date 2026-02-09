@@ -13,7 +13,11 @@ export default defineEventHandler(async (event) => {
 		ChatMessageSchema.safeParse,
 	);
 	if (!success) {
-		return 400;
+		// return 400;
+		throw createError({
+			statusCode: 400,
+			statusMessage: "Bad Request",
+		});
 	}
 
 	const { messages } = data as {
