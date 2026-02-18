@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ChatMessage, Chat } from "#layers/chat/shared/types/types";
+import type { Message, Chat } from "#layers/chat/shared/types/types";
 
 const props = defineProps<{
-	messages: ChatMessage[];
+	messages: Message[];
 	chat: Chat;
 	typing: boolean;
 }>();
@@ -64,7 +64,10 @@ function closeAssignModal() {
 							}"
 						>
 							<div class="message-content">
-								<MarkdownRenderer :content="message.content" />
+								<MarkdownRenderer
+									:cache-key="message.id"
+									:content="message.content"
+								/>
 							</div>
 						</div>
 

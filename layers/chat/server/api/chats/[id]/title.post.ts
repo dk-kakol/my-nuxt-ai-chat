@@ -7,6 +7,14 @@ import { UpdateChatTitleSchema } from "#layers/chat/server/schemas";
 
 export default defineEventHandler(async (event) => {
 	const { id } = getRouterParams(event);
+
+	if (!id) {
+		throw createError({
+			statusCode: 400,
+			statusMessage: "Bad Request: Missing chat ID",
+		});
+	}
+
 	const { success, data } = await readValidatedBody(
 		event,
 		UpdateChatTitleSchema.safeParse,

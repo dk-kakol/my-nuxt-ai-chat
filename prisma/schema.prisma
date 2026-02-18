@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum MessageRole {
+  user
+  assistant
+}
+
+// Represents a project that organizes multiple chats together
+// Projects belong to a single user and can contain multiple chats
+// In db there will be columns: id, name, userId, createdAt, updatedAt
+model Project {
+  // Unique identifier for the project (automatically generated UUID)
+  id String @id @default(uuid())
+  
+  // Human-readable name of the project
+  name String
+  
+  // Foreign key column stored IN THIS TABLE pointing to User.id
+  // This creates a database column called "userId" in the Project table
+  userId String
+  
+  // Virtual field to access the related User object (not a database column)
+  // @relation is defined HERE because the foreign key (userId) is in THIS table
+  // fields: which column in THIS table holds the foreign key
+  // references: which column in the User table it points to
+  // When user is deleted, all their projects are deleted (Cascade)
+  // it is many-to-one relationship: many projects can belong to one user
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Virtual field to query all chats belonging to this project
+  // No @relation needed HERE because the foreign key is stored in the Chat table (projectId)
+  // The Chat model defines the relation since it owns the foreign key
+  // it is one-to-many relationship: one project can have many chats
+  chats Chat[]
+  
+  // Timestamp when the project was created
+  createdAt DateTime @default(now())
+  
+  // Timestamp when the project was last updated (automatically managed)
+  updatedAt DateTime @updatedAt
+  
+  // Index for faster queries filtering by userId
+  @@index([userId])
+}
+
+model User {
+  id String @id @default(uuid())
+  email String?
+  name String?
+  provider String?
+  providerId String? @unique
+  projects Project[]
+  chats Chat[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([providerId])
+  @@index([email])
+}
+
+model Chat {
+  id        String    @id @default(uuid())
+  title     String?
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId String?
+  project   Project?  @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  messages  Message[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  @@index([userId])
+}
+
+model Message {
+  id        String      @id @default(uuid())
+  content   String
+  role      MessageRole
+  chatId    String
+  chat      Chat        @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  @@index([chatId])
+}

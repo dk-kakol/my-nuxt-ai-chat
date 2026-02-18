@@ -1,4 +1,4 @@
-import type { Chat } from "../../../chat/app/types";
+import type { Chat } from "#layers/chat/shared/types/types";
 
 /**
  * Checks if a given date falls within a specified number of days from now.
@@ -42,7 +42,7 @@ export function isWithinDays(date: Date, days: number): boolean {
 export function filterChatsByDateRange(
 	chats: Chat[],
 	startDays: number,
-	endDays?: number
+	endDays?: number,
 ) {
 	return chats
 		.filter((chat) => {
@@ -56,6 +56,6 @@ export function filterChatsByDateRange(
 		})
 		.sort(
 			(a, b) =>
-				new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+				new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
 		);
 }
