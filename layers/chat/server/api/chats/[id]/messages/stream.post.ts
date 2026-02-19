@@ -25,6 +25,14 @@ import {
  */
 export default defineEventHandler(async (event) => {
 	const { id } = getRouterParams(event);
+
+	if (!id) {
+		throw createError({
+			statusCode: 400,
+			statusMessage: "Bad Request: Missing chat ID",
+		});
+	}
+
 	const history = await getMessagesByChatId(id);
 
 	// Create OpenAI model and get a streaming response

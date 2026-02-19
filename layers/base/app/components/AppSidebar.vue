@@ -53,7 +53,7 @@ async function handleCreateProject() {
 }
 
 const chatsWithoutProject = computed(() =>
-	chats.value.filter((chat) => chat.projectId === undefined),
+	chats.value.filter((chat) => chat.projectId === null),
 );
 
 function filterChats(startDays: number, endDays?: number) {

@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
 	}
 
 	const { messages } = data as {
-		messages: ChatMessage[];
+		messages: Message[];
 		chatId: string;
 	};
 	// const lastMessage = messages[messages.length - 1];
