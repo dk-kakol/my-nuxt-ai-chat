@@ -6,9 +6,7 @@ export async function getAllProjects(): Promise<Project[]> {
 	});
 }
 
-export async function getAllProjectsByUser(
-	userId: string = "1",
-): Promise<Project[]> {
+export async function getAllProjectsByUser(userId: string): Promise<Project[]> {
 	return await prisma.project.findMany({
 		where: { userId },
 		orderBy: { createdAt: "asc" },
@@ -21,14 +19,26 @@ export async function getProjectById(id: string): Promise<Project | null> {
 	});
 }
 
+export async function getProjectByIdForUser(
+	id: string,
+	userId: string,
+): Promise<Project | null> {
+	return await prisma.project.findFirst({
+		where: {
+			id,
+			userId,
+		},
+	});
+}
+
 export async function createProject(data: {
 	name: string;
-	userId?: string;
+	userId: string;
 }): Promise<Project> {
 	return await prisma.project.create({
 		data: {
 			name: data.name,
-			userId: data.userId || "1",
+			userId: data.userId,
 		},
 	});
 }

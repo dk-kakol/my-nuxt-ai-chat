@@ -30,7 +30,7 @@ function handleToggleSidebar() {
 		</div>
 		<div class="header-title">{{ appConfig.title }}</div>
 		<div class="header-right">
-			<!-- TODO add later -->
+			<ProfileMenu />
 		</div>
 	</header>
 </template>

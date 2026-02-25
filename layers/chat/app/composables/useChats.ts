@@ -21,15 +21,16 @@ export default function useChats() {
 	const { data, execute, status } = useFetch<ChatWithMessages[]>("/api/chats", {
 		immediate: false,
 		default: () => [],
+		headers: useRequestHeaders(["cookie"]),
 	});
 
-	async function fetchChats() {
+	async function fetchChats(refresh = false) {
 		// console.log("Taki fetch wykona się zarówno po stronie serwera, jak i klienta");
 		// const fetchedChats = await $fetch<Chat[]>("/api/chats");
 		// chats.value = fetchedChats;
-		if (status.value !== "idle") return;
+		if (status.value !== "idle" && !refresh) return;
 		await execute();
-		chats.value = data.value;
+		chats.value = data.value || [];
 	}
 
 	async function prefetchChatMessages() {
@@ -45,6 +46,9 @@ export default function useChats() {
 				try {
 					const messages = await $fetch<Message[]>(
 						`/api/chats/${chat.id}/messages`,
+						{
+							headers: useRequestHeaders(["cookie"]),
+						},
 					);
 
 					const targetChat = chats.value.find((c) => c.id === chat.id);
@@ -61,23 +65,37 @@ export default function useChats() {
 	async function createChat(
 		options: { projectId?: string; title?: string } = {},
 	) {
-		const newChat = await $fetch<ChatWithMessages>("/api/chats", {
-			method: "POST",
-			body: {
-				title: options.title,
-				projectId: options.projectId,
-			},
-		});
-		chats.value.push(newChat);
-		return newChat;
+		try {
+			const newChat = await $fetch<ChatWithMessages>("/api/chats", {
+				method: "POST",
+				headers: useRequestHeaders(["cookie"]),
+				body: {
+					title: options.title,
+					projectId: options.projectId,
+				},
+			});
+			chats.value.push(newChat);
+			return newChat;
+		} catch (error) {
+			console.error("Failed to create chat:", error);
+			throw error;
+		}
 	}
 
 	async function createChatAndNavigate(options: { projectId?: string } = {}) {
-		const chat = await createChat(options);
-		if (chat.projectId) {
-			await navigateTo(`/projects/${chat.projectId}/chats/${chat.id}`);
-		} else {
-			await navigateTo(`/chats/${chat.id}`);
+		try {
+			const chat = await createChat(options);
+			if (!chat || !chat.id) {
+				throw new Error("Failed to create chat");
+			}
+			if (chat.projectId) {
+				await navigateTo(`/projects/${chat.projectId}/chats/${chat.id}`);
+			} else {
+				await navigateTo(`/chats/${chat.id}`);
+			}
+		} catch (error) {
+			console.error("Failed to create chat and navigate:", error);
+			throw error;
 		}
 	}
 

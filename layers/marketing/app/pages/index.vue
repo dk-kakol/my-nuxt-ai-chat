@@ -6,8 +6,25 @@ definePageMeta({
 const appConfig = useAppConfig();
 
 const { createChatAndNavigate } = useChats();
+const { isAuthenticated } = useAuth();
+
+const isCreating = ref(false);
+
 async function handleCreateChat() {
-	await createChatAndNavigate();
+	if (isCreating.value) return;
+	isCreating.value = true;
+	try {
+		if (!isAuthenticated.value) {
+			await navigateTo("/login");
+			return;
+		}
+		await createChatAndNavigate();
+	} catch (error) {
+		console.error("Failed to create new chat:", error);
+		await navigateTo("/login");
+	} finally {
+		isCreating.value = false;
+	}
 }
 </script>
 
@@ -27,13 +44,19 @@ async function handleCreateChat() {
 				<UButton
 					class="text-center font-bold self-center"
 					size="xl"
+					:loading="isCreating"
+					:disabled="isCreating"
 					@click="handleCreateChat"
 				>
 					Start Your First Chat
 				</UButton>
 			</div>
 			<div class="hero-image">
-				<img src="/hero.png" alt="Chat Interface Preview" class="hero-img" >
+				<NuxtImg
+					src="/hero.png"
+					alt="Chat Interface Preview"
+					class="hero-img"
+				/>
 			</div>
 		</UContainer>
 
@@ -131,6 +154,8 @@ async function handleCreateChat() {
 					</p>
 					<UButton
 						class="cta-button"
+						:loading="isCreating"
+						:disabled="isCreating"
 						size="xl"
 						variant="outline"
 						@click="handleCreateChat"

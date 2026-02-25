@@ -1,11 +1,13 @@
 import {
 	getMessagesByChatId,
 	createMessageForChat,
+	getChatByIdForUser,
 } from "#layers/chat/server/repository/chatRepository";
 import {
 	createOpenAiModel,
 	streamChatResponse,
 } from "#layers/chat/server/services/ai-service";
+import { getAuthenticatedUserId } from "#layers/auth/server/utils/auth";
 
 /**
  * API endpoint handler for streaming chat messages.
@@ -33,6 +35,16 @@ export default defineEventHandler(async (event) => {
 		});
 	}
 
+	const userId = await getAuthenticatedUserId(event);
+
+	// Verify user owns the chat
+	const chat = await getChatByIdForUser(id, userId);
+	if (!chat) {
+		throw createError({
+			statusCode: 404,
+			statusMessage: "Chat not found",
+		});
+	}
 	const history = await getMessagesByChatId(id);
 
 	// Create OpenAI model and get a streaming response

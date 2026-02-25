@@ -1,4 +1,7 @@
 <script setup lang="ts">
+definePageMeta({
+	middleware: "auth",
+});
 const route = useRoute();
 const {
 	chat: chatFromChats,
@@ -34,5 +37,7 @@ useHead({
 </script>
 
 <template>
-	<ChatWindow :typing :chat :messages @send-message="handleSendMessage" />
+	<div class="h-full flex flex-col">
+		<ChatWindow :typing :chat :messages @send-message="handleSendMessage" />
+	</div>
 </template>
