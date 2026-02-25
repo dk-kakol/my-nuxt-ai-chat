@@ -20,10 +20,8 @@ export default defineNuxtConfig({
 		nitro: {
 			storage: {
 				db: {
-					// driver: "netlify-blobs",
+					// driver: 'netlify-blob',
 					driver: "vercel-blob",
-					name: "my-nuxt-ai-chat-blob",
-					access: "public",
 				},
 			},
 		},
