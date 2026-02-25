@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
 	}
 
 	const history = await getMessagesByChatId(id);
-	const openai = createOpenAiModel(useRuntimeConfig(event).openaiApiKey);
+	const openai = createOpenAiModel(useRuntimeConfig().openaiApiKey);
 	const reply = await generateChatResponse(history, openai);
 	// const body = await readBody(event);
 
