@@ -52,7 +52,11 @@ async function handleCreateChat() {
 				</UButton>
 			</div>
 			<div class="hero-image">
-				<img src="/hero.png" alt="Chat Interface Preview" class="hero-img" />
+				<NuxtImg
+					src="/hero.png"
+					alt="Chat Interface Preview"
+					class="hero-img"
+				/>
 			</div>
 		</UContainer>
 
