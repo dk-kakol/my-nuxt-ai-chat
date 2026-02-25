@@ -23,6 +23,7 @@ export default defineNuxtConfig({
 					// driver: "netlify-blobs",
 					driver: "vercel-blob",
 					name: "db",
+					access: "public",
 				},
 			},
 		},
