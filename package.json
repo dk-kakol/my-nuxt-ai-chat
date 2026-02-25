@@ -18,11 +18,12 @@
 	},
 	"dependencies": {
 		"@ai-sdk/openai": "^3.0.7",
+		"@iconify-json/lucide": "^1.2.93",
 		"@nuxt/eslint": "1.11.0",
 		"@nuxt/image": "2.0.0",
 		"@nuxt/ui": "^4.2.1",
 		"@prisma/client": "6.9.0",
-		"@iconify-json/lucide": "^1.2.93",
+		"@vercel/blob": "^2.3.0",
 		"ai": "^6.0.20",
 		"ai-sdk-ollama": "^3.0.1",
 		"eslint": "^9.39.1",
