@@ -1,6 +1,6 @@
 import {
-	createOllamaModel,
-	// createOpenAiModel,
+	// createOllamaModel,
+	createOpenAiModel,
 	generateChatResponse,
 } from "../services/ai-service";
 import { ChatMessageSchema } from "#layers/chat/server/schemas";
@@ -26,15 +26,15 @@ export default defineEventHandler(async (event) => {
 	};
 	// const lastMessage = messages[messages.length - 1];
 
-	// const openaiApiKey = useRuntimeConfig().openaiApiKey;
-	// const openaiModel = createOpenAiModel(openaiApiKey);
-	const ollamaModel = createOllamaModel();
+	const openaiApiKey = useRuntimeConfig().openaiApiKey;
+	const openaiModel = createOpenAiModel(openaiApiKey);
+	// const ollamaModel = createOllamaModel();
 
 	const response = await generateChatResponse(
 		messages,
-		// openaiModel
+		openaiModel,
 		// możesz też użyć ollamaModel
-		ollamaModel,
+		// ollamaModel,
 	);
 	// możesz zwrócić cokolwiek:
 	// return 403;

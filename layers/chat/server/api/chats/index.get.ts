@@ -28,6 +28,10 @@ export default defineCachedEventHandler(
 		name: "getAllChats",
 		maxAge: 0,
 		swr: false,
+		getKey: async (event) => {
+			const userId = await getAuthenticatedUserId(event);
+			return `getAllChats:${userId}`;
+		},
 		async shouldInvalidateCache(event) {
 			const userId = await getAuthenticatedUserId(event);
 			const storage = useStorage("db");
