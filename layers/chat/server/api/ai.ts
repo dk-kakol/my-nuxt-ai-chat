@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
 	};
 	// const lastMessage = messages[messages.length - 1];
 
-	const openaiApiKey = useRuntimeConfig().openaiApiKey;
+	const openaiApiKey = useRuntimeConfig(event).openaiApiKey;
 	const openaiModel = createOpenAiModel(openaiApiKey);
 	// const ollamaModel = createOllamaModel();
 
