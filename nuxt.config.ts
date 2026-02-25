@@ -22,6 +22,8 @@ export default defineNuxtConfig({
 				db: {
 					// driver: 'netlify-blobs',
 					driver: "vercel-blob",
+					access: "private",
+					token: process.env.BLOB_READ_WRITE_TOKEN,
 				},
 			},
 		},
