@@ -48,7 +48,7 @@ export default defineEventHandler(async (event) => {
 	const history = await getMessagesByChatId(id);
 
 	// Create OpenAI model and get a streaming response
-	const openai = createOpenAiModel(useRuntimeConfig().openaiApiKey);
+	const openai = createOpenAiModel(useRuntimeConfig(event).openaiApiKey);
 	// `stream` is a ReadableStream that emits chunks of text as OpenAI generates them
 	const stream = await streamChatResponse(openai, history);
 
