@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
 		});
 	}
 
-	const model = createOpenAiModel(useRuntimeConfig(event).openaiApiKey);
+	const model = createOpenAiModel(useRuntimeConfig().openaiApiKey);
 	const title = await generateChatTitle(model, data.message);
 
 	return updateChat(id, { title });
