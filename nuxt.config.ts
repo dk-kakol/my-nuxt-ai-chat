@@ -21,6 +21,7 @@ export default defineNuxtConfig({
 			storage: {
 				db: {
 					// driver: 'netlify-blobs',
+					// poniższe jest dla vercela, ale jest problem z opją allowOverwrite
 					driver: "vercel-blob",
 					access: "public",
 					token: process.env.BLOB_READ_WRITE_TOKEN,
