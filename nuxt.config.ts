@@ -24,6 +24,7 @@ export default defineNuxtConfig({
 					driver: "vercel-blob",
 					access: "public",
 					token: process.env.BLOB_READ_WRITE_TOKEN,
+					allowOverwrite: true,
 				},
 			},
 		},
