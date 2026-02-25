@@ -23,7 +23,7 @@ export default defineNuxtConfig({
 					// driver: "netlify-blobs",
 					driver: "vercel-blob",
 					name: "my-nuxt-ai-chat-blob",
-					access: "private",
+					access: "public",
 				},
 			},
 		},
