@@ -1,7 +1,9 @@
 import { createChat } from "#layers/chat/server/repository/chatRepository";
 import { CreateChatSchema } from "#layers/chat/server/schemas";
+import { getAuthenticatedUserId } from "#layers/auth/server/utils/auth";
 
 export default defineEventHandler(async (event) => {
+	const userId = await getAuthenticatedUserId(event);
 	const { success, data } = await readValidatedBody(
 		event,
 		CreateChatSchema.safeParse,
@@ -17,10 +19,11 @@ export default defineEventHandler(async (event) => {
 	const { title, projectId } = data;
 
 	const storage = useStorage("db");
-	await storage.setItem("chats:has-new-chat", true);
+	await storage.setItem(`chats:has-new-chat:${userId}`, true);
 
 	return createChat({
 		title,
 		projectId,
+		userId,
 	});
 });
