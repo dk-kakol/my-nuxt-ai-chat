@@ -37,8 +37,8 @@ export default defineEventHandler(async (event) => {
 		});
 	}
 
-	const storage = useStorage("db");
-	await storage.setItem(`chats:has-new-chat:${userId}`, true);
+	// const storage = useStorage("db");
+	// await storage.setItem(`chats:has-new-chat:${userId}`, true);
 
 	return updateChat(id, data);
 });

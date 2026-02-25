@@ -18,8 +18,8 @@ export default defineEventHandler(async (event) => {
 
 	const { title, projectId } = data;
 
-	const storage = useStorage("db");
-	await storage.setItem(`chats:has-new-chat:${userId}`, true);
+	// const storage = useStorage("db");
+	// await storage.setItem(`chats:has-new-chat:${userId}`, true);
 
 	return createChat({
 		title,
