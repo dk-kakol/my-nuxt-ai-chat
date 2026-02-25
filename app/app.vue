@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const config = useRuntimeConfig();
-console.log(config);
+// const config = useRuntimeConfig();
+// console.log(config);
 
 const { fetchChats, prefetchChatMessages } = useChats();
 const { fetchProjects } = useProjects();
